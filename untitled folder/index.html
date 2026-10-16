@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f1ec">
+  <meta name="description" content="Turn a rough idea into a clear, detailed prompt." />
+  <title>PromptNest — Give your idea more direction</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="PromptNest home">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 2.8 19.2 12.8 29.2 16l-10 3.2L16 29.2l-3.2-10L2.8 16l10-3.2L16 2.8Z"/><circle cx="25.7" cy="6.4" r="2.1"/></svg></span>
+        <span class="brand-name">Prompt<span>Nest</span></span>
+      </a>
+      <div class="top-actions">
+        <button class="quiet-button" id="settings-toggle" type="button" aria-expanded="false" aria-controls="settings-panel"><span class="key-dot"></span> API settings</button>
+        <button class="icon-button" id="theme-toggle" type="button" aria-label="Switch color theme" title="Switch color theme"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.4 15.4A8.7 8.7 0 0 1 8.6 3.6 8.8 8.8 0 1 0 20.4 15.4Z"/></svg></button>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="intro" aria-labelledby="page-title">
+        <div class="eyebrow"><span class="eyebrow-line"></span> A little more room for your ideas</div>
+        <h1 id="page-title">Small thought.<br><em>Big direction.</em></h1>
+        <p class="intro-copy">Turn a quick idea into a thoughtful, ready-to-use prompt. For images, code, stories, or whatever comes next.</p>
+      </section>
+
+      <section class="composer card" aria-label="Prompt composer">
+        <div class="section-top"><label class="field-label" for="idea">YOUR STARTING IDEA</label><span class="counter" id="char-count">0 / 2,000</span></div>
+        <textarea id="idea" maxlength="2000" placeholder="A tiny cabin tucked into a misty forest at sunrise…" rows="4"></textarea>
+        <div class="examples" aria-label="Try an example">
+          <span class="examples-label">Try</span>
+          <button class="example-chip" type="button" data-example="A cozy, sunlit reading nook with plants and a sleepy orange cat">cozy reading nook</button>
+          <button class="example-chip" type="button" data-example="A responsive habit tracker app for students, with streaks and a calm interface">habit tracker app</button>
+          <button class="example-chip" type="button" data-example="A short magical-realism story about a lighthouse that remembers every ship">magical story</button>
+        </div>
+
+        <div class="upload-area" id="upload-area">
+          <div class="upload-copy"><span class="upload-symbol" aria-hidden="true">＋</span><div><strong>Attach reference media</strong><span>Images or one video · saved locally when browser space allows</span></div></div>
+          <label class="file-button" for="attachments">Choose files</label>
+          <input id="attachments" type="file" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime,video/x-msvideo,video/mpeg,video/x-flv,video/3gpp" multiple hidden>
+          <div class="attachment-list" id="attachment-list" aria-live="polite"></div>
+          <p class="upload-note" id="upload-note" role="status">Up to 5 files, including one video; 40 MB total.</p>
+        </div>
+
+        <div class="divider"></div>
+        <div class="field-label type-heading">WHAT ARE YOU MAKING?</div>
+        <div class="type-options" role="group" aria-label="Prompt type">
+          <button class="type-option active" type="button" data-type="image"><span class="type-icon">✳</span> Image</button>
+          <button class="type-option" type="button" data-type="video"><span class="type-icon">▶</span> Video</button>
+          <button class="type-option" type="button" data-type="code"><span class="type-icon">&lt;/&gt;</span> Code</button>
+          <button class="type-option" type="button" data-type="story"><span class="type-icon">¶</span> Story</button>
+          <button class="type-option" type="button" data-type="anything"><span class="type-icon">✦</span> Anything</button>
+        </div>
+
+        <div class="options-row">
+          <label class="select-wrap"><span class="field-label">TONE</span><select id="tone"><option value="clear and natural">Clear &amp; natural</option><option value="professional and precise">Professional</option><option value="playful and imaginative">Playful</option><option value="cinematic and evocative">Cinematic</option><option value="warm and conversational">Conversational</option></select></label>
+          <label class="select-wrap detail-select"><span class="field-label">DETAIL</span><select id="detail"><option value="balanced, detailed but focused">Just right</option><option value="concise and direct">Concise</option><option value="richly detailed and comprehensive">Extra detailed</option></select></label>
+          <button class="generate-button" id="generate" type="button"><span class="button-spark">✦</span><span class="button-text">Expand my prompt</span><span class="button-arrow">↗</span></button>
+        </div>
+        <div class="form-note"><span class="note-lock">⌑</span> Your idea stays yours. API credentials stay server-side, outside this page.</div>
+        <p class="storage-notice" id="storage-notice" role="status" hidden></p>
+      </section>
+
+      <section class="settings-panel card" id="settings-panel" hidden aria-label="API settings">
+        <div class="settings-heading"><div><div class="field-label">CONNECTION</div><h2>Your API settings</h2></div><button id="settings-close" class="close-button" type="button" aria-label="Close settings">×</button></div>
+        <p class="settings-copy">The API key stays in a server-side Cloudflare secret and is never entered here. A backup model is tried if the primary is temporarily unavailable. For local development, use the provided .dev.vars example.</p>
+        <label class="field-label model-label" for="model-name">MODEL OVERRIDE (OPTIONAL)</label>
+        <input class="model-input" id="model-name" type="text" placeholder="Use the configured model pair" autocomplete="off" spellcheck="false">
+        <div class="settings-bottom"><span id="key-status" class="key-status">API key managed by deployment</span><button id="save-model" class="save-button" type="button">Save for this tab</button></div>
+        <p class="tiny-note">Leave blank to use the configured primary and fallback.</p>
+      </section>
+
+      <section class="result-section" id="result-section" aria-live="polite">
+        <div class="result-heading"><div><div class="eyebrow small-eyebrow"><span class="eyebrow-line"></span> The expanded version</div><h2>Your prompt, <em>with more room.</em></h2></div><span id="result-badge" class="result-badge" hidden></span></div>
+        <div class="result-card" id="result-card">
+          <div class="empty-state" id="empty-state"><span class="empty-mark">✳</span><p>Your expanded prompt will appear here.</p><span>Start with a few words. We’ll help you find the rest.</span></div>
+          <div class="loading-state" id="loading-state" hidden><span class="loader"></span><div><strong>Giving your idea more shape…</strong><span>Gathering the details that make it work.</span></div></div>
+          <div class="error-state" id="error-state" hidden role="alert"><span class="error-mark">!</span><div><strong>That didn’t quite work.</strong><p id="error-message"></p><button id="retry-button" class="retry-button" type="button" hidden>Try again</button></div></div>
+          <div class="output-state" id="output-state" hidden>
+            <div class="output-text" id="output-text" tabindex="0"></div>
+            <div class="output-footer"><span class="output-meta" id="output-meta"></span><button class="copy-button" id="copy-button" type="button"><span aria-hidden="true">▢</span> <span id="copy-label">Copy prompt</span></button></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="history-section" id="history-section" hidden>
+        <div class="history-heading"><div><h2>Saved chats</h2><p class="history-note">Stored on this device with IndexedDB.</p></div><button id="clear-history" class="text-button" type="button">Clear all</button></div>
+        <div id="history-list" class="history-list"></div>
+      </section>
+
+      <section class="about-section">
+        <div class="about-intro"><div class="eyebrow small-eyebrow"><span class="eyebrow-line"></span> A better starting point</div><h2>Less blank page.<br><em>More brilliant next step.</em></h2><p>A useful prompt gives your idea clarity, context, and just enough detail to get somewhere good.</p></div>
+        <div class="feature-list">
+          <article class="feature"><span class="feature-icon">✳</span><div><h3>Made for the way you make</h3><p>Shape a prompt for an image, a piece of code, a story, or something entirely your own.</p></div></article>
+          <article class="feature"><span class="feature-icon">↗</span><div><h3>Details that do the work</h3><p>Add audience, tone, context, and useful constraints—without losing the heart of your idea.</p></div></article>
+          <article class="feature"><span class="feature-icon">⌑</span><div><h3>Yours from the first word</h3><p>Your API key stays in this tab. Your prompts are saved on this device, never in an account.</p></div></article>
+        </div>
+      </section>
+    </main>
+    <footer><a class="footer-brand" href="#top">Prompt<span>Nest</span></a><span>Make the first draft a little less blank.</span><button id="footer-settings" class="text-button" type="button">API settings</button></footer>
+  </div>
+</body>
+</html>
