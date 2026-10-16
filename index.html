@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f1ec">
+  <meta name="description" content="Turn a rough idea into a clear, detailed prompt." />
+  <title>PromptNest — Give your idea more direction</title>
+  <link rel="stylesheet" href="/src/styles.css">
+  <script type="module" src="/src/script.js" defer></script>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Meaw Genarator home">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 26L10 16L16 6L22 16L27 26M10 26V30M22 26V30M13 20H15M19 20H17M16 22L18 24L16 26L14 24L16 22Z"/></svg></span>
+        <span class="brand-name">Meaw<span>Genarator</span></span>
+      </a>
+      <div class="top-actions">
+        <button class="quiet-button" id="history-toggle" type="button" aria-expanded="false" aria-controls="history-sidebar"><span class="key-dot history-dot"></span> History</button>
+        <button class="icon-button" id="theme-toggle" type="button" aria-label="Switch color theme" title="Switch color theme"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.4 15.4A8.7 8.7 0 0 1 8.6 3.6 8.8 8.8 0 1 0 20.4 15.4Z"/></svg></button>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="intro" aria-labelledby="page-title">
+        <div class="eyebrow"><span class="eyebrow-line"></span> A little more room for your ideas</div>
+        <h1 id="page-title">Small thought.<br><em>Big direction.</em></h1>
+        <p class="intro-copy">Turn a quick idea into a thoughtful, ready-to-use prompt. For images, code, stories, or whatever comes next.</p>
+      </section>
+
+      <section class="composer card" aria-label="Prompt composer">
+        <div class="section-top"><label class="field-label" for="idea">YOUR STARTING IDEA</label><span class="counter" id="char-count">0 / 2,000</span></div>
+        <textarea id="idea" maxlength="2000" placeholder="A tiny cabin tucked into a misty forest at sunrise…" rows="4"></textarea>
+        <div class="examples" aria-label="Try an example">
+          <span class="examples-label">Try</span>
+          <button class="example-chip" type="button" data-example="A cozy, sunlit reading nook with plants and a sleepy orange cat">cozy reading nook</button>
+          <button class="example-chip" type="button" data-example="A responsive habit tracker app for students, with streaks and a calm interface">habit tracker app</button>
+          <button class="example-chip" type="button" data-example="A short magical-realism story about a lighthouse that remembers every ship">magical story</button>
+        </div>
+
+        <div class="upload-area upload-area-icon-only" id="upload-area" title="Attach reference media">
+          <label class="upload-icon-trigger" for="attachments">
+            <span class="upload-symbol" aria-hidden="true">＋</span>
+          </label>
+          <input id="attachments" type="file" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime,video/x-msvideo,video/mpeg,video/x-flv,video/3gpp" multiple hidden>
+          <div class="attachment-list" id="attachment-list" aria-live="polite"></div>
+          <p class="upload-note" id="upload-note" role="status" hidden></p>
+        </div>
+
+        <div class="divider"></div>
+        <div class="options-row">
+          <label class="select-wrap"><span class="field-label">TYPE</span><select id="prompt-type"><option value="image">Image</option><option value="video">Video</option><option value="code">Code</option><option value="story">Story</option><option value="anything" selected>Anything</option></select></label>
+          <label class="select-wrap"><span class="field-label">TONE</span><select id="tone"><option value="clear and natural">Clear &amp; natural</option><option value="professional and precise">Professional</option><option value="playful and imaginative">Playful</option><option value="cinematic and evocative">Cinematic</option><option value="warm and conversational">Conversational</option></select></label>
+          <button class="generate-button" id="generate" type="button"><span class="button-spark">✦</span><span class="button-text">Expand my prompt</span><span class="button-arrow">↗</span></button>
+        </div>
+        <div class="form-note"><span class="note-lock">⌑</span> Your idea stays yours. API credentials stay server-side, outside this page.</div>
+        <p class="storage-notice" id="storage-notice" role="status" hidden></p>
+      </section>
+
+
+
+      <section class="result-section" id="result-section" aria-live="polite">
+        <div class="result-heading"><div><div class="eyebrow small-eyebrow"><span class="eyebrow-line"></span> The expanded version</div><h2>Your prompt, <em>with more room.</em></h2></div><span id="result-badge" class="result-badge" hidden></span></div>
+        <div class="result-card" id="result-card">
+          <div class="empty-state" id="empty-state"><span class="empty-mark">✳</span><p>Your expanded prompt will appear here.</p><span>Start with a few words. We’ll help you find the rest.</span></div>
+          <div class="loading-state" id="loading-state" hidden><span class="loader"></span><div><strong>Giving your idea more shape…</strong><span>Gathering the details that make it work.</span></div></div>
+          <div class="error-state" id="error-state" hidden role="alert"><span class="error-mark">!</span><div><strong>That didn’t quite work.</strong><p id="error-message"></p><button id="retry-button" class="retry-button" type="button" hidden>Try again</button></div></div>
+          <div class="output-state" id="output-state" hidden>
+            <div class="output-header-bar">
+              <span class="output-title-label">Prompt Block</span>
+            </div>
+            <div class="output-text" id="output-text" tabindex="0"></div>
+            <div class="output-footer"><span class="output-meta" id="output-meta"></span><button class="copy-button" id="copy-button" type="button"><span aria-hidden="true">▢</span> <span id="copy-label">Copy prompt</span></button></div>
+          </div>
+        </div>
+      </section>
+
+
+
+      <section class="about-section">
+        <div class="about-intro"><div class="eyebrow small-eyebrow"><span class="eyebrow-line"></span> A better starting point</div><h2>Less blank page.<br><em>More brilliant next step.</em></h2><p>A useful prompt gives your idea clarity, context, and just enough detail to get somewhere good.</p></div>
+        <div class="feature-list">
+          <article class="feature"><span class="feature-icon">✳</span><div><h3>Made for the way you make</h3><p>Shape a prompt for an image, a piece of code, a story, or something entirely your own.</p></div></article>
+          <article class="feature"><span class="feature-icon">↗</span><div><h3>Details that do the work</h3><p>Add audience, tone, context, and useful constraints—without losing the heart of your idea.</p></div></article>
+          <article class="feature"><span class="feature-icon">⌑</span><div><h3>Yours from the first word</h3><p>Your API key stays in this tab. Your prompts are saved on this device, never in an account.</p></div></article>
+        </div>
+      </section>
+    </main>
+    <footer><a class="footer-brand" href="#top">Meaw<span>Genarator</span></a><span>Make the first draft a little less blank.</span><button id="footer-settings" class="text-button" type="button">API settings</button></footer>
+  </div>
+
+  <div class="history-sidebar-overlay" id="history-sidebar-overlay" hidden></div>
+  <aside class="history-sidebar card" id="history-sidebar" hidden aria-label="Saved chats sidebar">
+    <div class="settings-heading">
+      <div>
+        <div class="field-label">ARCHIVE</div>
+        <h2>Saved chats</h2>
+      </div>
+      <button id="sidebar-close" class="close-button" type="button" aria-label="Close history">×</button>
+    </div>
+    <p class="history-note">Stored on this device with IndexedDB.</p>
+    <button id="clear-history" class="text-button" type="button">Clear all</button>
+    <div id="history-list" class="history-list"></div>
+  </aside>
+</body>
+</html>
