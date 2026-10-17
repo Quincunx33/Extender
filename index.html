@@ -4,104 +4,392 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f4f1ec">
-  <meta name="description" content="Turn a rough idea into a clear, detailed prompt." />
-  <title>PromptNest — Give your idea more direction</title>
+  <meta name="google-site-verification" content="4wvzD2JbYzFJ9kHngCx87Tzo0Q_L8ka77foEMYXZJQE" />
+
+  <title>Meaw Genarator — Prompt Architect with a Feline Twist</title>
+  <meta name="description" content="Transform rough ideas into powerful, detailed AI prompts with a feline touch. Optimize prompts for ChatGPT, Claude, Gemini, and Midjourney." />
+  <meta name="robots" content="index, follow" />
+  <meta name="keywords" content="meaw generator, meawpromt, prompt generator, ai prompt architect, prompt engineering, gemini prompt builder, chatgpt prompts" />
+  <meta name="author" content="Meaw Genarator" />
+  <link rel="canonical" href="https://meawpromt.pages.dev" />
+
+  <!-- OpenGraph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://meawpromt.pages.dev" />
+  <meta property="og:title" content="Meaw Genarator — Prompt Architect with a Feline Twist" />
+  <meta property="og:description" content="Transform rough ideas into powerful, detailed AI prompts with a feline touch. Optimize prompts for ChatGPT, Claude, Gemini, and Midjourney." />
+  <meta property="og:site_name" content="Meaw Genarator" />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://meawpromt.pages.dev" />
+  <meta name="twitter:title" content="Meaw Genarator — Prompt Architect with a Feline Twist" />
+  <meta name="twitter:description" content="Transform rough ideas into powerful, detailed AI prompts with a feline touch. Optimize prompts for ChatGPT, Claude, Gemini, and Midjourney." />
+
+  <!-- Schema.org JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Meaw Genarator",
+    "url": "https://meawpromt.pages.dev",
+    "description": "Transform rough ideas into powerful, detailed AI prompts with a feline touch. Optimize prompts for ChatGPT, Claude, Gemini, and Midjourney.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
   <link rel="stylesheet" href="/src/styles.css">
   <script type="module" src="/src/script.js" defer></script>
 </head>
 <body>
   <div class="page-shell">
+    <!-- Topbar Navigation -->
     <header class="topbar">
       <a class="brand" href="#top" aria-label="Meaw Genarator home">
-        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 26L10 16L16 6L22 16L27 26M10 26V30M22 26V30M13 20H15M19 20H17M16 22L18 24L16 26L14 24L16 22Z"/></svg></span>
+        <span class="brand-cat-icon" aria-hidden="true">
+          <!-- Sleek Cat Head SVG -->
+          <svg viewBox="0 0 36 36" width="28" height="28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 11L11 4L18 8L25 4L29 11C31 16 31 23 27 27C23 31 13 31 9 27C5 23 5 16 7 11Z" fill="currentColor" fill-opacity="0.12" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M11 6L14 11M25 6L22 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            <circle cx="13" cy="18" r="2.2" fill="currentColor"/>
+            <circle cx="23" cy="18" r="2.2" fill="currentColor"/>
+            <path d="M18 20L19.5 22.5H16.5L18 20Z" fill="#e96735"/>
+            <path d="M18 22.5V24C18 25 16 26 15 25M18 24C18 25 20 26 21 25" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M8 19L3 18M8 21L3 22M28 19L33 18M28 21L33 22" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity="0.75"/>
+          </svg>
+        </span>
         <span class="brand-name">Meaw<span>Genarator</span></span>
       </a>
+
       <div class="top-actions">
-        <button class="quiet-button" id="history-toggle" type="button" aria-expanded="false" aria-controls="history-sidebar"><span class="key-dot history-dot"></span> History</button>
-        <button class="icon-button" id="theme-toggle" type="button" aria-label="Switch color theme" title="Switch color theme"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.4 15.4A8.7 8.7 0 0 1 8.6 3.6 8.8 8.8 0 1 0 20.4 15.4Z"/></svg></button>
+        <button class="quiet-button" id="history-toggle" type="button" aria-expanded="false" aria-controls="history-sidebar">
+          <span class="key-dot history-dot"></span> History
+        </button>
+        <button class="icon-button" id="theme-toggle" type="button" aria-label="Switch color theme" title="Switch color theme">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.4 15.4A8.7 8.7 0 0 1 8.6 3.6 8.8 8.8 0 1 0 20.4 15.4Z"/></svg>
+        </button>
       </div>
     </header>
 
     <main id="top">
+      <!-- Hero Intro Section with Prominent Cat SVG Mascot -->
       <section class="intro" aria-labelledby="page-title">
-        <div class="eyebrow"><span class="eyebrow-line"></span> A little more room for your ideas</div>
-        <h1 id="page-title">Small thought.<br><em>Big direction.</em></h1>
-        <p class="intro-copy">Turn a quick idea into a thoughtful, ready-to-use prompt. For images, code, stories, or whatever comes next.</p>
+        <div class="cat-mascot-wrapper" id="cat-mascot" title="Click me for a meow!">
+          <!-- High Fidelity Vector Cat SVG Illustration -->
+          <svg class="cat-hero-svg" viewBox="0 0 220 180" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cute playful cat mascot">
+            <defs>
+              <linearGradient id="catGradient" x1="40" y1="20" x2="180" y2="160" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#fff8f2"/>
+                <stop offset="0.6" stop-color="#faeee3"/>
+                <stop offset="1" stop-color="#f5e1cf"/>
+              </linearGradient>
+              <linearGradient id="catEarPink" x1="0" y1="0" x2="1" y2="1">
+                <stop stop-color="#ffb7a5"/>
+                <stop offset="1" stop-color="#e96735"/>
+              </linearGradient>
+              <filter id="softGlow" x="-10%" y="-10%" width="120%" height="120%">
+                <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#e96735" flood-opacity="0.16"/>
+              </filter>
+            </defs>
+
+            <!-- Subtle background halo -->
+            <circle cx="110" cy="95" r="76" fill="#fae8dc" fill-opacity="0.45" class="halo-pulse"/>
+
+            <!-- Cat Tail Animated -->
+            <g class="cat-tail-group">
+              <path d="M165 130C185 130 198 115 196 95C194 75 178 72 178 82C178 92 188 95 186 108C184 120 172 124 162 124" stroke="#e96735" stroke-width="6" stroke-linecap="round" fill="none"/>
+            </g>
+
+            <!-- Cat Body -->
+            <path d="M68 142C68 115 84 96 110 96C136 96 152 115 152 142C152 152 140 156 110 156C80 156 68 152 68 142Z" fill="url(#catGradient)" stroke="#d9825b" stroke-width="2.5"/>
+
+            <!-- Left Ear with Inner Pink -->
+            <g class="ear ear-left">
+              <path d="M72 70L54 24C52 19 59 15 63 19L92 58" fill="url(#catGradient)" stroke="#d9825b" stroke-width="2.5" stroke-linejoin="round"/>
+              <path d="M70 60L59 32C58 29 62 27 65 30L82 54" fill="url(#catEarPink)" opacity="0.85"/>
+            </g>
+
+            <!-- Right Ear with Inner Pink -->
+            <g class="ear ear-right">
+              <path d="M148 70L166 24C168 19 161 15 157 19L128 58" fill="url(#catGradient)" stroke="#d9825b" stroke-width="2.5" stroke-linejoin="round"/>
+              <path d="M150 60L161 32C162 29 158 27 155 30L138 54" fill="url(#catEarPink)" opacity="0.85"/>
+            </g>
+
+            <!-- Cat Head -->
+            <ellipse cx="110" cy="78" rx="46" ry="38" fill="url(#catGradient)" stroke="#d9825b" stroke-width="2.5" filter="url(#softGlow)"/>
+
+            <!-- Cheeks Blush -->
+            <circle cx="82" cy="85" r="8" fill="#ffb49e" fill-opacity="0.45"/>
+            <circle cx="138" cy="85" r="8" fill="#ffb49e" fill-opacity="0.45"/>
+
+            <!-- Whiskers Left -->
+            <path d="M82 82L52 78M82 86L50 87M82 90L54 96" stroke="#b08169" stroke-width="1.8" stroke-linecap="round"/>
+
+            <!-- Whiskers Right -->
+            <path d="M138 82L168 78M138 86L170 87M138 90L166 96" stroke="#b08169" stroke-width="1.8" stroke-linecap="round"/>
+
+            <!-- Eyes (Blinking Animation) -->
+            <g class="cat-eyes">
+              <!-- Left Eye -->
+              <ellipse cx="94" cy="74" rx="4.5" ry="6" fill="#302d28" class="eye-pupil"/>
+              <circle cx="92.5" cy="72" r="1.8" fill="#ffffff"/>
+              <circle cx="95.5" cy="75.5" r="0.8" fill="#ffffff"/>
+
+              <!-- Right Eye -->
+              <ellipse cx="126" cy="74" rx="4.5" ry="6" fill="#302d28" class="eye-pupil"/>
+              <circle cx="124.5" cy="72" r="1.8" fill="#ffffff"/>
+              <circle cx="127.5" cy="75.5" r="0.8" fill="#ffffff"/>
+            </g>
+
+            <!-- Cute Cat Nose & Mouth -->
+            <path d="M110 82L114 86.5H106L110 82Z" fill="#e96735"/>
+            <g id="cat-mouth-group">
+              <path id="cat-mouth-closed" d="M110 86.5V90C110 92 106 93.5 103 92M110 90C110 92 114 93.5 117 92" stroke="#4a3e35" stroke-width="2" stroke-linecap="round"/>
+              <ellipse id="cat-mouth-open" cx="110" cy="92.5" rx="5" ry="4" fill="#c93e25" stroke="#4a3e35" stroke-width="1.5" style="display: none;"/>
+            </g>
+
+            <!-- Front Paws Resting On Deck -->
+            <ellipse cx="92" cy="146" rx="11" ry="8" fill="#ffffff" stroke="#d9825b" stroke-width="2"/>
+            <path d="M88 143V148M92 142V148M96 143V148" stroke="#d9825b" stroke-width="1.2" stroke-linecap="round"/>
+
+            <ellipse cx="128" cy="146" rx="11" ry="8" fill="#ffffff" stroke="#d9825b" stroke-width="2"/>
+            <path d="M124 143V148M128 142V148M132 143V148" stroke="#d9825b" stroke-width="1.2" stroke-linecap="round"/>
+
+            <!-- Floating Magic Sparkles -->
+            <g class="magic-sparkle sparkle-1">
+              <path d="M168 45L171 36L174 45L183 48L174 51L171 60L168 51L159 48L168 45Z" fill="#e96735"/>
+            </g>
+            <g class="magic-sparkle sparkle-2">
+              <path d="M48 55L50 49L52 55L58 57L52 59L50 65L48 59L42 57L48 55Z" fill="#ffb49e"/>
+            </g>
+
+            <!-- Floating Meow Hearts -->
+            <g id="cat-meow-hearts" style="opacity: 0;">
+              <path d="M110 40 C108 36, 102 36, 100 40 C98 44, 104 50, 110 54 C116 50, 122 44, 120 40 C118 36, 112 36, 110 40 Z" fill="#e96735"/>
+            </g>
+          </svg>
+          <div class="cat-speech-bubble" id="cat-bubble">
+            <span class="bubble-text">Meow! Click me to hear me meow! 🐾</span>
+          </div>
+        </div>
+
+        <div class="eyebrow"><span class="eyebrow-line"></span> Universal Prompt Engineering Engine</div>
+        <h1 id="page-title">Rough idea.<br><em>Master prompt.</em></h1>
+        <p class="intro-copy">Drop in any thought or upload visual references. We'll architect a complete, copy-ready prompt for any AI engine with precision and depth.</p>
       </section>
 
+      <!-- Composer Card -->
       <section class="composer card" aria-label="Prompt composer">
-        <div class="section-top"><label class="field-label" for="idea">YOUR STARTING IDEA</label><span class="counter" id="char-count">0 / 2,000</span></div>
-        <textarea id="idea" maxlength="2000" placeholder="A tiny cabin tucked into a misty forest at sunrise…" rows="4"></textarea>
+        <div class="section-top">
+          <label class="field-label" for="idea">YOUR STARTING IDEA</label>
+          <span class="counter" id="char-count">0 / 4,000</span>
+        </div>
+        <textarea id="idea" maxlength="4000" placeholder="e.g. A cyberpunk tea shop with neon steam and a sleepy robotic cat..." rows="4"></textarea>
+
         <div class="examples" aria-label="Try an example">
           <span class="examples-label">Try</span>
           <button class="example-chip" type="button" data-example="A cozy, sunlit reading nook with plants and a sleepy orange cat">cozy reading nook</button>
-          <button class="example-chip" type="button" data-example="A responsive habit tracker app for students, with streaks and a calm interface">habit tracker app</button>
-          <button class="example-chip" type="button" data-example="A short magical-realism story about a lighthouse that remembers every ship">magical story</button>
+          <button class="example-chip" type="button" data-example="A responsive full-stack habit tracker web app with streaks, dark mode, and IndexedDB persistence">habit tracker app</button>
+          <button class="example-chip" type="button" data-example="Cinematic slow-motion shot of a black cat jumping across rooftops in rain, blade-runner style lighting">cinematic cat</button>
+          <button class="example-chip" type="button" data-example="A whimsical story about an ancient library run by cats who guard forgotten spells">cat librarians</button>
         </div>
 
-        <div class="upload-area upload-area-icon-only" id="upload-area" title="Attach reference media">
+        <!-- Attachment / Reference Media Area -->
+        <div class="upload-area upload-area-icon-only" id="upload-area" title="Attach reference media (Images/Videos up to 40 MB)">
           <label class="upload-icon-trigger" for="attachments">
             <span class="upload-symbol" aria-hidden="true">＋</span>
+            <span class="upload-btn-label">Attach reference media</span>
           </label>
-          <input id="attachments" type="file" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime,video/x-msvideo,video/mpeg,video/x-flv,video/3gpp" multiple hidden>
+          <input id="attachments" type="file" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime,video/x-msvideo" multiple hidden>
           <div class="attachment-list" id="attachment-list" aria-live="polite"></div>
           <p class="upload-note" id="upload-note" role="status" hidden></p>
         </div>
 
         <div class="divider"></div>
+
         <div class="options-row">
-          <label class="select-wrap"><span class="field-label">TYPE</span><select id="prompt-type"><option value="image">Image</option><option value="video">Video</option><option value="code">Code</option><option value="story">Story</option><option value="anything" selected>Anything</option></select></label>
-          <label class="select-wrap"><span class="field-label">TONE</span><select id="tone"><option value="clear and natural">Clear &amp; natural</option><option value="professional and precise">Professional</option><option value="playful and imaginative">Playful</option><option value="cinematic and evocative">Cinematic</option><option value="warm and conversational">Conversational</option></select></label>
-          <button class="generate-button" id="generate" type="button"><span class="button-spark">✦</span><span class="button-text">Expand my prompt</span><span class="button-arrow">↗</span></button>
+          <label class="select-wrap">
+            <span class="field-label">TARGET DOMAIN</span>
+            <select id="prompt-type">
+              <option value="anything" selected>Universal (Anything)</option>
+              <option value="image">Image (Midjourney, DALL-E, Imagen)</option>
+              <option value="code">Code &amp; Architecture (Cursor, Claude, Copilot)</option>
+              <option value="video">Video &amp; Animation (Veo, Runway, Sora)</option>
+              <option value="story">Creative Writing &amp; Story</option>
+            </select>
+          </label>
+
+          <label class="select-wrap">
+            <span class="field-label">TONE</span>
+            <select id="tone">
+              <option value="clear, authoritative and natural" selected>Clear &amp; Natural</option>
+              <option value="highly technical, structured and rigorous">Technical &amp; Rigorous</option>
+              <option value="playful, witty and imaginative">Playful &amp; Creative</option>
+              <option value="cinematic, atmospheric and evocative">Cinematic &amp; Evocative</option>
+              <option value="direct, minimal and hyper-concise">Minimal &amp; Direct</option>
+            </select>
+          </label>
+
+          <button class="generate-button" id="generate" type="button">
+            <span class="button-spark">✦</span>
+            <span class="button-text">Generate Prompt</span>
+            <span class="button-arrow">↗</span>
+          </button>
         </div>
-        <div class="form-note"><span class="note-lock">⌑</span> Your idea stays yours. API credentials stay server-side, outside this page.</div>
+
+        <div class="form-note">
+          <span class="note-lock">🐾</span>
+          <span>Powered by Gemini API. Secrets configured server-side via <code>GEMINI_API_KEY</code>.</span>
+        </div>
         <p class="storage-notice" id="storage-notice" role="status" hidden></p>
       </section>
 
-
-
+      <!-- Result Presentation Section -->
       <section class="result-section" id="result-section" aria-live="polite">
-        <div class="result-heading"><div><div class="eyebrow small-eyebrow"><span class="eyebrow-line"></span> The expanded version</div><h2>Your prompt, <em>with more room.</em></h2></div><span id="result-badge" class="result-badge" hidden></span></div>
+        <div class="result-heading">
+          <div>
+            <div class="eyebrow small-eyebrow"><span class="eyebrow-line"></span> Master Output</div>
+            <h2>Your prompt, <em>architected.</em></h2>
+          </div>
+          <div class="result-actions-top">
+            <span id="result-badge" class="result-badge" hidden></span>
+            <button id="clear-result-btn" class="secondary-mini-btn" type="button" hidden title="Clear output">✕ Clear</button>
+          </div>
+        </div>
+
         <div class="result-card" id="result-card">
-          <div class="empty-state" id="empty-state"><span class="empty-mark">✳</span><p>Your expanded prompt will appear here.</p><span>Start with a few words. We’ll help you find the rest.</span></div>
-          <div class="loading-state" id="loading-state" hidden><span class="loader"></span><div><strong>Giving your idea more shape…</strong><span>Gathering the details that make it work.</span></div></div>
-          <div class="error-state" id="error-state" hidden role="alert"><span class="error-mark">!</span><div><strong>That didn’t quite work.</strong><p id="error-message"></p><button id="retry-button" class="retry-button" type="button" hidden>Try again</button></div></div>
+          <!-- Empty Initial State -->
+          <div class="empty-state" id="empty-state">
+            <span class="empty-cat-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 5c.67 0 1.35.09 2 .26 1.78-2 5.03-2.84 6.42-2.26 1.4.58-.42 4.25-1.5 5.5.7 1.4.92 3.1.58 4.75-1.02 4.95-6.07 8.75-7.5 8.75s-6.48-3.8-7.5-8.75c-.34-1.65-.12-3.35.58-4.75-1.08-1.25-2.9-4.92-1.5-5.5 1.39-.58 4.64.26 6.42 2.26.65-.17 1.33-.26 2-.26z"/>
+                <path d="M9 13v.5a1.5 1.5 0 0 0 3 0V13M12 13.5a1.5 1.5 0 0 0 3 0V13"/>
+                <circle cx="8.5" cy="10.5" r="1" fill="currentColor"/>
+                <circle cx="15.5" cy="10.5" r="1" fill="currentColor"/>
+              </svg>
+            </span>
+            <p>Your master prompt will appear here.</p>
+            <span>Click <strong>Generate Prompt</strong> to transform your idea into an execution-ready prompt.</span>
+          </div>
+
+          <!-- Dynamic Loading State with Animated Cat Paws & Progress Steps -->
+          <div class="loading-state" id="loading-state" hidden>
+            <div class="cat-loader-container">
+              <div class="paw-track">
+                <span class="cat-paw paw-1">🐾</span>
+                <span class="cat-paw paw-2">🐾</span>
+                <span class="cat-paw paw-3">🐾</span>
+              </div>
+            </div>
+            <div class="loading-details">
+              <strong id="loading-title">Architecting your master prompt…</strong>
+              <span id="loading-step">Analyzing requirements &amp; parameters…</span>
+            </div>
+          </div>
+
+          <!-- Enhanced Error State with Clear Diagnosis & Actionable Fixes -->
+          <div class="error-state" id="error-state" hidden role="alert">
+            <span class="error-mark">!</span>
+            <div class="error-content">
+              <strong id="error-title">Prompt generation encountered an issue</strong>
+              <p id="error-message"></p>
+              <div class="error-actions">
+                <button id="retry-button" class="retry-button" type="button" hidden>Try again</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Polished Output State with Formatted Master Prompt -->
           <div class="output-state" id="output-state" hidden>
             <div class="output-header-bar">
-              <span class="output-title-label">Prompt Block</span>
+              <div class="output-title-group">
+                <span class="output-title-label">Copy-Ready Master Prompt</span>
+                <span class="output-model-badge" id="output-model-badge"></span>
+              </div>
+              <div class="output-quick-actions">
+                <button class="copy-button" id="copy-button" type="button" title="Copy to clipboard">
+                  <span class="copy-icon" aria-hidden="true">📋</span>
+                  <span id="copy-label">Copy prompt</span>
+                </button>
+              </div>
             </div>
-            <div class="output-text" id="output-text" tabindex="0"></div>
-            <div class="output-footer"><span class="output-meta" id="output-meta"></span><button class="copy-button" id="copy-button" type="button"><span aria-hidden="true">▢</span> <span id="copy-label">Copy prompt</span></button></div>
+
+            <!-- Beautiful Content Presentation Container -->
+            <div class="output-formatted-container">
+              <pre class="output-text" id="output-text" tabindex="0"></pre>
+            </div>
+
+            <div class="output-footer">
+              <span class="output-meta" id="output-meta"></span>
+              <div class="footer-buttons">
+                <button class="secondary-mini-btn" id="copy-markdown-btn" type="button">Copy Markdown</button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-
-
+      <!-- About / Benefits Section -->
       <section class="about-section">
-        <div class="about-intro"><div class="eyebrow small-eyebrow"><span class="eyebrow-line"></span> A better starting point</div><h2>Less blank page.<br><em>More brilliant next step.</em></h2><p>A useful prompt gives your idea clarity, context, and just enough detail to get somewhere good.</p></div>
+        <div class="about-intro">
+          <div class="eyebrow small-eyebrow"><span class="eyebrow-line"></span> Prompt Engineering Discipline</div>
+          <h2>Less guessing.<br><em>Superior output.</em></h2>
+          <p>A mediocre prompt gives you generic AI slop. An architected prompt enforces constraints, personas, verified outputs, and precise execution.</p>
+        </div>
         <div class="feature-list">
-          <article class="feature"><span class="feature-icon">✳</span><div><h3>Made for the way you make</h3><p>Shape a prompt for an image, a piece of code, a story, or something entirely your own.</p></div></article>
-          <article class="feature"><span class="feature-icon">↗</span><div><h3>Details that do the work</h3><p>Add audience, tone, context, and useful constraints—without losing the heart of your idea.</p></div></article>
-          <article class="feature"><span class="feature-icon">⌑</span><div><h3>Yours from the first word</h3><p>Your API key stays in this tab. Your prompts are saved on this device, never in an account.</p></div></article>
+          <article class="feature">
+            <span class="feature-icon">🐾</span>
+            <div>
+              <h3>Domain-Specific Architectures</h3>
+              <p>Specialized guidance rules for full-stack code, photorealistic image synthesis, cinematic video pacing, and creative writing.</p>
+            </div>
+          </article>
+          <article class="feature">
+            <span class="feature-icon">✦</span>
+            <div>
+              <h3>Immediate Clear &amp; Regenerate</h3>
+              <p>One-click fresh generation clears old buffers and generates clean, crisp, structured results with fallback model support.</p>
+            </div>
+          </article>
+          <article class="feature">
+            <span class="feature-icon">⚡</span>
+            <div>
+              <h3>Edge-Accelerated &amp; Private</h3>
+              <p>Direct edge processing delivers instant prompt architecting while keeping your ideas, attachments, and data strictly confidential.</p>
+            </div>
+          </article>
         </div>
       </section>
     </main>
-    <footer><a class="footer-brand" href="#top">Meaw<span>Genarator</span></a><span>Make the first draft a little less blank.</span><button id="footer-settings" class="text-button" type="button">API settings</button></footer>
+
+    <!-- Footer -->
+    <footer>
+      <a class="footer-brand" href="#top">Meaw<span>Genarator</span></a>
+      <span>Turn small thoughts into big directions. 🐾</span>
+    </footer>
   </div>
 
+  <!-- History Drawer -->
   <div class="history-sidebar-overlay" id="history-sidebar-overlay" hidden></div>
-  <aside class="history-sidebar card" id="history-sidebar" hidden aria-label="Saved chats sidebar">
+  <aside class="history-sidebar card" id="history-sidebar" hidden aria-label="Saved prompts history">
     <div class="settings-heading">
       <div>
-        <div class="field-label">ARCHIVE</div>
-        <h2>Saved chats</h2>
+        <div class="field-label">LOCAL ARCHIVE</div>
+        <h2>Saved Prompts</h2>
       </div>
       <button id="sidebar-close" class="close-button" type="button" aria-label="Close history">×</button>
     </div>
-    <p class="history-note">Stored on this device with IndexedDB.</p>
-    <button id="clear-history" class="text-button" type="button">Clear all</button>
+    <button id="clear-history" class="text-button" type="button">Clear all saved history</button>
     <div id="history-list" class="history-list"></div>
   </aside>
+
+  <!-- In-DOM Audio element using freesound_community-cat-meow-85175.mp3 for 100% reliable iOS & desktop playback -->
+  <audio id="cat-audio-player" src="/freesound_community-cat-meow-85175.mp3" preload="auto" playsinline style="display:none;"></audio>
 </body>
 </html>

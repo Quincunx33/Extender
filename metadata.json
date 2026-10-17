@@ -1,4 +1,8 @@
 {
   "name": "Meaw Genarator",
-  "description": "An idea to prompt generator with a feline twist."
+  "description": "An idea to prompt generator with a feline twist.",
+  "requestFramePermissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
