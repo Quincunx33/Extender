@@ -1,6 +1,6 @@
 {
-  "name": "Meaw Genarator",
-  "description": "An idea to prompt generator with a feline twist.",
+  "name": "Universal Prompt Writer",
+  "description": "Professional prompt engineering assistant that transforms raw ideas into clear, precise, and ready-to-use AI prompts.",
   "requestFramePermissions": [],
   "capabilities": [
     "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
