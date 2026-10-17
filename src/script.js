@@ -695,11 +695,10 @@ import { CAT_MEOW_AUDIO_SRC, CAT_MEOW_BASE64, CAT_MEOW_DATA_URI } from "./catSou
     loadingState.hidden = false;
 
     const progressSteps = [
-      "Analyzing your core idea and intent…",
-      "Applying universal prompt architecture principles…",
-      "Drafting role, objective, and domain constraints…",
-      "Synthesizing edge cases, formats, and verifiable metrics…",
-      "Polishing final copy-ready master prompt…"
+      "Understanding what you want…",
+      "Keeping the prompt focused on your idea…",
+      "Adding only the details that help…",
+      "Making it clear and ready to use…"
     ];
     let stepIndex = 0;
     loadingStep.textContent = progressSteps[0];

@@ -1,50 +1,12 @@
-const MASTER_SYSTEM_INSTRUCTIONS = `UNIVERSAL PROMPT ENGINEERING SKILL (UPE-01)
+const MASTER_SYSTEM_INSTRUCTIONS = `You turn a user's request into a prompt they can give to another AI. Your job is to preserve what the user wants, not to make the request sound more technical or impressive.
 
-Purpose: Teach the AI How to Engineer Prompts
+Before writing, identify the user's actual goal, the intended result, and any constraints they stated. Keep the user's subject, scope, tone, and concrete details. Improve clarity without changing the idea.
 
-You are equipped with the Universal Prompt Engineering Skill.
-This skill defines the methodology you must use to transform user ideas into effective prompts. It is not a prompt template. It is a process for understanding objectives, designing instructions, selecting relevant detail, and constructing high-quality prompts.
+Make the prompt only as detailed as the task needs. A simple request usually needs one to three clear sentences. Add structure or steps only when they materially help a genuinely complex task. Do not add generic sections, checklists, metrics, edge cases, tool requirements, technical stacks, audiences, or deliverables the user did not ask for. Never turn a small coding request into a full application specification.
 
-Your task is to apply this skill every time you generate or improve a prompt.
+Use reasonable defaults for minor gaps instead of inventing requirements or asking unnecessary questions. If a missing detail would fundamentally change the result, state one concise question inside the prompt only when needed.
 
-CAPABILITY 1: INTENT INTERPRETATION
-- Understand what the user wants to accomplish, the expected deliverable, constraints, essential information, and what remains uncertain.
-- Interpret meaning rather than copying mechanically; correct spelling, improve clarity, and organize fragmented instructions.
-- Do not assume short descriptions imply basic solutions or technical topics require complex projects.
-
-CAPABILITY 2: REQUIREMENT REASONING
-- Separate into explicit requirements, necessary requirements, design decisions, and optional enhancements.
-- Preserve explicit requirements, include necessary requirements, and make justified design decisions without inflating scope.
-
-CAPABILITY 3: PROMPT ARCHITECTURE SELECTION
-- Choose a structure that fits the intended deliverable (simple writing, coding, data analysis, image generation, research, complex software). Select only sections that materially contribute.
-
-CAPABILITY 4: OBJECTIVE-DRIVEN INSTRUCTION DESIGN
-- Construct each prompt around the target AI's responsibilities: objective, context, requirements, constraints, method, deliverable, and verification criteria.
-
-CAPABILITY 5: DOMAIN ADAPTATION
-- Use domain knowledge effectively (visual, coding, analytical, research, automation) without inventing unnecessary technical requirements.
-
-CAPABILITY 6: TECHNICAL DECISION-MAKING
-- Decide which technical details genuinely matter. Preserve explicitly requested technologies; do not force unrequested stacks.
-
-CAPABILITY 7: INFORMATION GAP MANAGEMENT
-- Proceed if clear; use reasonable defaults for minor missing details; ask focused questions only when missing decisions substantially change solutions.
-
-CAPABILITY 8: PROMPT CONSTRUCTION
-- Build the final prompt logically: establish responsibility, objective, context, requirements, constraints, steps, and output expectations. Avoid unnecessary jargon and exaggerated personas.
-
-CAPABILITY 9: ITERATIVE PROMPT REFINEMENT
-- Identify underlying issues before rewriting. Preserve valid requirements and refine instructions.
-
-CAPABILITY 10: SELF-EVALUATION
-- Evaluate intent fidelity, instruction quality, completeness, relevance, feasibility, consistency, verifiability, and efficiency.
-
-CAPABILITY 11: TARGET-MODEL AWARENESS
-- Adapt prompts to known target models or write model-neutral prompts. Do not assume filesystem/tool access without evidence.
-
-CAPABILITY 12: OUTPUT DISCIPLINE
-- Return one complete, copy-ready prompt. Include assumptions only when necessary. Avoid lengthy preambles or explanations unless requested.`;
+Return only the copy-ready prompt. Make it direct, natural, specific to this request, and no longer than necessary. Do not execute the user's task, explain your process, add a title, or include alternatives unless requested. For attached media, use it as reference and describe only details that are actually visible.`;
 
 export async function onRequestPost({ request, env }) {
   const apiKey = (env.GEMINI_API_KEY || "").trim();
@@ -60,6 +22,8 @@ export async function onRequestPost({ request, env }) {
   }
 
   let idea = "";
+  let type = "anything";
+  let tone = "";
   const files = [];
 
   const contentType = (request.headers.get("content-type") || "").toLowerCase();
@@ -68,6 +32,8 @@ export async function onRequestPost({ request, env }) {
     if (contentType.includes("multipart/form-data")) {
       const formData = await request.formData();
       idea = String(formData.get("idea") || "").trim();
+      type = String(formData.get("type") || type).slice(0, 40);
+      tone = String(formData.get("tone") || tone).slice(0, 100);
 
       const fileEntries = formData.getAll("files");
       for (const entry of fileEntries) {
@@ -78,6 +44,8 @@ export async function onRequestPost({ request, env }) {
     } else {
       const body = await request.json();
       idea = typeof body?.idea === "string" ? body.idea.trim() : "";
+      type = typeof body?.type === "string" ? body.type.slice(0, 40) : type;
+      tone = typeof body?.tone === "string" ? body.tone.slice(0, 100) : tone;
     }
   } catch (err) {
     return new Response(JSON.stringify({
@@ -97,12 +65,14 @@ export async function onRequestPost({ request, env }) {
   const fallbackModel = normalizeModel(env.GEMINI_MODEL_FALLBACK, "gemini-3.1-flash-lite");
   const modelsToTry = [...new Set([primaryModel, fallbackModel])];
 
-  const promptInstructions = `USER'S ORIGINAL ROUGH IDEA OR REQUEST:
+  const promptInstructions = `Optional task-type hint: ${type}. ${tone ? `Requested tone: ${tone}.` : ""} Treat these as hints only; follow the actual request if it points elsewhere.
+
+USER'S ORIGINAL REQUEST:
 """
-${idea || "Analyze the attached media context and generate a premier prompt based on it."}
+${idea || "Use the attached media as reference and write a concise prompt that matches the user's likely intent."}
 """
 
-Apply the Universal Prompt Engineering Skill (UPE-01) methodology to analyze this request, determine its domain (coding, writing, image, video, analysis, etc.) and tone automatically, and construct an exceptional, copy-ready prompt. Return the finalized prompt directly.`;
+Write the shortest useful, copy-ready prompt that would help another AI deliver what the user actually wants. Preserve their scope and specifics. Do not pad it with generic instructions, technical choices, sections, or requirements they did not request. Return only the prompt.`;
 
   const parts = [];
 
@@ -139,7 +109,8 @@ Apply the Universal Prompt Engineering Skill (UPE-01) methodology to analyze thi
           systemInstruction: { parts: [{ text: MASTER_SYSTEM_INSTRUCTIONS }] },
           contents: [{ role: "user", parts }],
           generationConfig: {
-            temperature: 0.7
+            temperature: 0.45,
+            maxOutputTokens: 1200
           }
         })
       });

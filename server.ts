@@ -19,61 +19,11 @@ const upload = multer({
   },
 });
 
-const MASTER_SYSTEM_INSTRUCTIONS = `UNIVERSAL PROMPT ENGINEERING SKILL (UPE-01)
+const MASTER_SYSTEM_INSTRUCTIONS = `You turn a user's request into a prompt they can give to another AI. Preserve what the user wants; do not make it sound more technical or impressive for its own sake. Identify their actual goal, intended result, and stated constraints. Keep their subject, scope, tone, and concrete details.
 
-Purpose: Teach the AI How to Engineer Prompts
+Make the prompt only as detailed as needed. A simple request usually needs one to three clear sentences. Add structure or steps only when they materially help a genuinely complex task. Do not add generic sections, checklists, metrics, edge cases, tools, technical stacks, audiences, or deliverables the user did not request. Never turn a small coding request into a full application specification.
 
-You are equipped with the Universal Prompt Engineering Skill.
-This skill defines the methodology you must use to transform user ideas into effective prompts. It is not a prompt template. It is a process for understanding objectives, designing instructions, selecting relevant detail, and constructing high-quality prompts.
-
-Your task is to apply this skill every time you generate or improve a prompt.
-
-CAPABILITY 1: INTENT INTERPRETATION
-- Understand what the user wants to accomplish, the expected deliverable, constraints, essential information, and what remains uncertain.
-- Interpret meaning rather than copying mechanically; correct spelling, improve clarity, and organize fragmented instructions.
-- Do not assume short descriptions imply basic solutions or technical topics require complex projects.
-
-CAPABILITY 2: REQUIREMENT REASONING
-- Separate into explicit requirements, necessary requirements, design decisions, and optional enhancements.
-- Preserve explicit requirements, include necessary requirements, and make justified design decisions without inflating scope.
-
-CAPABILITY 3: PROMPT ARCHITECTURE SELECTION
-- Choose a structure that fits the intended deliverable (simple writing, coding, data analysis, image generation, research, complex software). Select only sections that materially contribute.
-
-CAPABILITY 4: OBJECTIVE-DRIVEN INSTRUCTION DESIGN
-- Construct each prompt around the target AI's responsibilities: objective, context, requirements, constraints, method, deliverable, and verification criteria.
-
-CAPABILITY 5: DOMAIN ADAPTATION
-- Use domain knowledge effectively (visual, coding, analytical, research, automation) without inventing unnecessary technical requirements.
-
-CAPABILITY 6: TECHNICAL DECISION-MAKING
-- Decide which technical details genuinely matter. Preserve explicitly requested technologies; do not force unrequested stacks.
-
-CAPABILITY 7: INFORMATION GAP MANAGEMENT
-- Proceed if clear; use reasonable defaults for minor missing details; ask focused questions only when missing decisions substantially change solutions.
-
-CAPABILITY 8: PROMPT CONSTRUCTION
-- Build the final prompt logically: establish responsibility, objective, context, requirements, constraints, steps, and output expectations. Avoid unnecessary jargon and exaggerated personas.
-
-CAPABILITY 9: ITERATIVE PROMPT REFINEMENT
-- Identify underlying issues before rewriting. Preserve valid requirements and refine instructions.
-
-CAPABILITY 10: SELF-EVALUATION
-- Evaluate intent fidelity, instruction quality, completeness, relevance, feasibility, consistency, verifiability, and efficiency.
-
-CAPABILITY 11: TARGET-MODEL AWARENESS
-- Adapt prompts to known target models or write model-neutral prompts. Do not assume filesystem/tool access without evidence.
-
-CAPABILITY 12: OUTPUT DISCIPLINE
-- Return one complete, copy-ready prompt. Include assumptions only when necessary. Avoid lengthy preambles or explanations unless requested.`;
-
-const TYPE_GUIDELINES: Record<string, string> = {
-  image: "Focus on visual styling, camera optics, composition, lighting, textures, aspect ratio, atmosphere, and high-fidelity rendering parameters.",
-  video: "Focus on sequence progression, camera motion (pan/tilt/tracking), scene transitions, atmosphere, visual continuity, and duration/aspect specs.",
-  code: "Focus on software architecture, clean patterns, full stack implementation, typescript/modern standards, resilient error handling, and testable code.",
-  story: "Focus on tone, character voice, sensory immersion, emotional stakes, thematic depth, and narrative structure.",
-  anything: "Classify the domain automatically and construct an authoritative, comprehensive prompt tailored specifically for the user's objective."
-};
+Use reasonable defaults for minor gaps. Do not invent requirements or ask unnecessary questions. Return only a direct, natural, copy-ready prompt, no longer than necessary. Do not execute the task, explain your process, add a title, or include alternatives unless requested. For attached media, use it as reference and describe only details that are actually visible.`;
 
 function normalizeModel(modelStr: string, defaultModel: string): string {
   if (!modelStr) return defaultModel;
@@ -147,12 +97,12 @@ app.post('/api/expand', upload.any(), async (req, res) => {
       });
     }
 
-    const promptInstructions = `USER'S ORIGINAL ROUGH IDEA OR REQUEST:
+    const promptInstructions = `USER'S ORIGINAL REQUEST:
 """
-${ideaText || 'Analyze the attached media context and generate a premier prompt based on it.'}
+${ideaText || 'Use the attached media as reference and write a concise prompt that matches the user’s likely intent.'}
 """
 
-Apply the Universal Prompt Engineering Skill (UPE-01) methodology to analyze this request, determine its domain (coding, writing, image, video, analysis, etc.) and tone automatically, and construct an exceptional, copy-ready prompt. Return the finalized prompt directly.`;
+Write the shortest useful, copy-ready prompt that would help another AI deliver what the user actually wants. Preserve their scope and specifics. Do not pad it with generic instructions, technical choices, sections, or requirements they did not request. Return only the prompt.`;
 
     // Prepare contents
     const parts: any[] = [];
@@ -184,7 +134,7 @@ Apply the Universal Prompt Engineering Skill (UPE-01) methodology to analyze thi
           contents: [{ role: 'user', parts }],
           config: {
             systemInstruction: MASTER_SYSTEM_INSTRUCTIONS,
-            temperature: 0.7,
+            temperature: 0.45,
           },
         });
 
