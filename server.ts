@@ -120,7 +120,7 @@ app.post('/api/expand', upload.any(), async (req, res) => {
   }
 
   try {
-    const { idea, type = 'anything', tone = 'clear and natural', detail = 'balanced and focused' } = req.body;
+    const { idea } = req.body;
     const files = (req.files as Express.Multer.File[]) || [];
 
     const ideaText = typeof idea === 'string' ? idea.trim() : '';
@@ -147,20 +147,12 @@ app.post('/api/expand', upload.any(), async (req, res) => {
       });
     }
 
-    const typeHint = TYPE_GUIDELINES[type] || TYPE_GUIDELINES['anything'];
-    const promptInstructions = `TASK CATEGORY: ${type.toUpperCase()}
-GUIDANCE FOR THIS DOMAIN: ${typeHint}
-REQUESTED TONE: ${tone}
-DETAIL LEVEL: ${detail}
-
-USER'S ORIGINAL ROUGH IDEA:
+    const promptInstructions = `USER'S ORIGINAL ROUGH IDEA OR REQUEST:
 """
 ${ideaText || 'Analyze the attached media context and generate a premier prompt based on it.'}
 """
 
-YOUR INSTRUCTION:
-Transform this user's rough idea into an exceptional, structured, copy-ready prompt.
-Format the output cleanly with appropriate markdown sections (e.g. Master Prompt, Context & Intent, Key Elements / Parameters, Quality & Constraints). Make it immediately ready to copy-paste into an AI tool.`;
+Apply the Universal Prompt Engineering Skill (UPE-01) methodology to analyze this request, determine its domain (coding, writing, image, video, analysis, etc.) and tone automatically, and construct an exceptional, copy-ready prompt. Return the finalized prompt directly.`;
 
     // Prepare contents
     const parts: any[] = [];

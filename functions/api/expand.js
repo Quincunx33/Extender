@@ -46,32 +46,6 @@ CAPABILITY 11: TARGET-MODEL AWARENESS
 CAPABILITY 12: OUTPUT DISCIPLINE
 - Return one complete, copy-ready prompt. Include assumptions only when necessary. Avoid lengthy preambles or explanations unless requested.`;
 
-const TYPE_GUIDELINES = {
-  image: "Focus on visual styling, camera optics, composition, lighting, textures, aspect ratio, atmosphere, and high-fidelity rendering parameters.",
-  video: "Focus on sequence progression, camera motion (pan/tilt/tracking), scene transitions, atmosphere, visual continuity, and duration/aspect specs.",
-  code: "Focus on software architecture, clean patterns, full stack implementation, typescript/modern standards, resilient error handling, and testable code.",
-  story: "Focus on tone, character voice, sensory immersion, emotional stakes, thematic depth, and narrative structure.",
-  anything: "Classify the domain automatically and construct an authoritative, comprehensive prompt tailored specifically for the user's objective."
-};
-
-function normalizeModel(modelStr, defaultModel) {
-  if (!modelStr) return defaultModel;
-  let m = String(modelStr).trim().toLowerCase().replace(/\s+/g, '-');
-  if (m === 'gemini-3.5-flash-light') m = 'gemini-3.5-flash-lite';
-  if (m === 'gemini-3.1-flash-light') m = 'gemini-3.1-flash-lite';
-  return m;
-}
-
-function toBase64(buffer) {
-  const bytes = new Uint8Array(buffer);
-  let binary = "";
-  const chunkSize = 0x8000;
-  for (let i = 0; i < bytes.length; i += chunkSize) {
-    binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
-  }
-  return btoa(binary);
-}
-
 export async function onRequestPost({ request, env }) {
   const apiKey = (env.GEMINI_API_KEY || "").trim();
   if (!apiKey) {
@@ -86,9 +60,6 @@ export async function onRequestPost({ request, env }) {
   }
 
   let idea = "";
-  let type = "anything";
-  let tone = "clear and natural";
-  let detail = "balanced and focused";
   const files = [];
 
   const contentType = (request.headers.get("content-type") || "").toLowerCase();
@@ -97,9 +68,6 @@ export async function onRequestPost({ request, env }) {
     if (contentType.includes("multipart/form-data")) {
       const formData = await request.formData();
       idea = String(formData.get("idea") || "").trim();
-      type = String(formData.get("type") || "anything");
-      tone = String(formData.get("tone") || tone);
-      detail = String(formData.get("detail") || detail);
 
       const fileEntries = formData.getAll("files");
       for (const entry of fileEntries) {
@@ -110,9 +78,6 @@ export async function onRequestPost({ request, env }) {
     } else {
       const body = await request.json();
       idea = typeof body?.idea === "string" ? body.idea.trim() : "";
-      type = typeof body?.type === "string" ? body.type : "anything";
-      tone = typeof body?.tone === "string" ? body.tone : tone;
-      detail = typeof body?.detail === "string" ? body.detail : detail;
     }
   } catch (err) {
     return new Response(JSON.stringify({
@@ -132,20 +97,12 @@ export async function onRequestPost({ request, env }) {
   const fallbackModel = normalizeModel(env.GEMINI_MODEL_FALLBACK, "gemini-3.1-flash-lite");
   const modelsToTry = [...new Set([primaryModel, fallbackModel])];
 
-  const typeHint = TYPE_GUIDELINES[type] || TYPE_GUIDELINES["anything"];
-  const promptInstructions = `TASK CATEGORY: ${type.toUpperCase()}
-GUIDANCE FOR THIS DOMAIN: ${typeHint}
-REQUESTED TONE: ${tone}
-DETAIL LEVEL: ${detail}
-
-USER'S ORIGINAL ROUGH IDEA:
+  const promptInstructions = `USER'S ORIGINAL ROUGH IDEA OR REQUEST:
 """
 ${idea || "Analyze the attached media context and generate a premier prompt based on it."}
 """
 
-YOUR INSTRUCTION:
-Transform this user's rough idea into an exceptional, structured, copy-ready prompt.
-Format the output cleanly with appropriate markdown sections (e.g. Master Prompt, Context & Intent, Key Elements / Parameters, Quality & Constraints). Make it immediately ready to copy-paste into an AI tool.`;
+Apply the Universal Prompt Engineering Skill (UPE-01) methodology to analyze this request, determine its domain (coding, writing, image, video, analysis, etc.) and tone automatically, and construct an exceptional, copy-ready prompt. Return the finalized prompt directly.`;
 
   const parts = [];
 
@@ -245,4 +202,22 @@ Format the output cleanly with appropriate markdown sections (e.g. Master Prompt
       "Cache-Control": "no-store"
     }
   });
+}
+
+function normalizeModel(modelStr, defaultModel) {
+  if (!modelStr) return defaultModel;
+  let m = String(modelStr).trim().toLowerCase().replace(/\s+/g, '-');
+  if (m === 'gemini-3.5-flash-light') m = 'gemini-3.5-flash-lite';
+  if (m === 'gemini-3.1-flash-light') m = 'gemini-3.1-flash-lite';
+  return m;
+}
+
+function toBase64(buffer) {
+  const bytes = new Uint8Array(buffer);
+  let binary = "";
+  const chunkSize = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+  }
+  return btoa(binary);
 }
