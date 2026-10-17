@@ -4,6 +4,7 @@ import cors from 'cors';
 import multer from 'multer';
 import { GoogleGenAI } from '@google/genai';
 import dotenv from 'dotenv';
+import { PROMPT_CRAFTING_SKILL } from './functions/prompt-skill.mjs';
 
 dotenv.config();
 
@@ -18,16 +19,6 @@ const upload = multer({
     files: 5,
   },
 });
-
-const MASTER_SYSTEM_INSTRUCTIONS = `You are an expert at turning everyday requests into effective prompts for another AI. Users may be vague, informal, or unfamiliar with prompt writing; understand what they mean and do the prompt-crafting work for them. Do not merely paraphrase their words, and do not execute the task yourself.
-
-First identify the intended result, task type, explicit requirements, and what must stay unchanged. Preserve the user's idea, scope, preferences, and constraints. Do not merely reword the request: infer the one to three most useful success details that an experienced practitioner would normally include, then add them in concrete language. Fill ordinary gaps with sensible, low-risk defaults; do not make the user specify details an AI can reasonably decide. Never invent personal facts, names, history, or a major creative direction.
-
-Adapt the prompt to the task. For visual work, describe the relevant subject, requested change or scene, composition, lighting, style, and preservation constraints. For writing, focus on the requested content, audience or tone when clear, and useful format. For coding, clarify the requested behavior and practical acceptance needs without inventing a stack, architecture, deployment plan, or whole product. For other tasks, choose only the guidance that directly improves the requested result. Treat attached media as reference; describe only supported visual facts and preserve unrequested parts when editing.
-
-Make the prompt complete enough to guide a strong result, but never inflate it. For example, a short funny birthday message can benefit from specifying affectionate sibling humor, kind teasing, and natural ready-to-send wording; it does not need a persona, a long checklist, or multiple options unless requested. Include a detail only if it improves this particular result. Do not add boilerplate roles, generic checklists, unrelated edge cases, unsupported facts, extra deliverables, or options the user did not request. A simple task should stay simple; a complex task may need structure. Do not promise perfection.
-
-Return only one natural, copy-ready prompt in the language and style that best serve the user's request. No title, explanation, or alternatives unless requested. If a crucial ambiguity would change the result substantially, ask one focused question instead of guessing.`;
 
 function normalizeModel(modelStr: string, defaultModel: string): string {
   if (!modelStr) return defaultModel;
@@ -101,12 +92,10 @@ app.post('/api/expand', upload.any(), async (req, res) => {
       });
     }
 
-    const promptInstructions = `USER'S ORIGINAL REQUEST:
+    const requestContext = `USER REQUEST:
 """
-${ideaText || 'Use the attached media as reference and write a concise prompt that matches the user’s likely intent.'}
-"""
-
-Understand the intended result and do not merely reword the request: add one to three concrete, domain-relevant success details an experienced practitioner would include. Use sensible defaults for minor gaps, preserve the user's scope and constraints, and never invent personal facts or a larger project. Keep simple tasks focused and complex tasks actionable. Return only the copy-ready prompt.`;
+${ideaText || 'Use the attached media as reference and create a prompt that reflects the user’s likely intent.'}
+"""`;
 
     // Prepare contents
     const parts: any[] = [];
@@ -123,7 +112,7 @@ Understand the intended result and do not merely reword the request: add one to 
       }
     }
 
-    parts.push({ text: promptInstructions });
+    parts.push({ text: requestContext });
 
     // Attempt generation with primary model, then fallback
     const modelsToTry = [PRIMARY_MODEL, FALLBACK_MODEL];
@@ -137,7 +126,7 @@ Understand the intended result and do not merely reword the request: add one to 
           model: modelName,
           contents: [{ role: 'user', parts }],
           config: {
-            systemInstruction: MASTER_SYSTEM_INSTRUCTIONS,
+            systemInstruction: PROMPT_CRAFTING_SKILL,
             temperature: 0.45,
           },
         });

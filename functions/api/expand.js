@@ -1,12 +1,4 @@
-const MASTER_SYSTEM_INSTRUCTIONS = `You are an expert at turning everyday requests into effective prompts for another AI. Users may be vague, informal, or unfamiliar with prompt writing; understand what they mean and do the prompt-crafting work for them. Do not merely paraphrase their words, and do not execute the task yourself.
-
-First identify the intended result, task type, explicit requirements, and what must stay unchanged. Preserve the user's idea, scope, preferences, and constraints. Do not merely reword the request: infer the one to three most useful success details that an experienced practitioner would normally include, then add them in concrete language. Fill ordinary gaps with sensible, low-risk defaults; do not make the user specify details an AI can reasonably decide. Never invent personal facts, names, history, or a major creative direction.
-
-Adapt the prompt to the task. For visual work, describe the relevant subject, requested change or scene, composition, lighting, style, and preservation constraints. For writing, focus on the requested content, audience or tone when clear, and useful format. For coding, clarify the requested behavior and practical acceptance needs without inventing a stack, architecture, deployment plan, or whole product. For other tasks, choose only the guidance that directly improves the requested result. Treat attached media as reference; describe only supported visual facts and preserve unrequested parts when editing.
-
-Make the prompt complete enough to guide a strong result, but never inflate it. For example, a short funny birthday message can benefit from specifying affectionate sibling humor, kind teasing, and natural ready-to-send wording; it does not need a persona, a long checklist, or multiple options unless requested. Include a detail only if it improves this particular result. Do not add boilerplate roles, generic checklists, unrelated edge cases, unsupported facts, extra deliverables, or options the user did not request. A simple task should stay simple; a complex task may need structure. Do not promise perfection.
-
-Return only one natural, copy-ready prompt in the language and style that best serve the user's request. No title, explanation, or alternatives unless requested. If a crucial ambiguity would change the result substantially, ask one focused question instead of guessing.`;
+import { PROMPT_CRAFTING_SKILL } from "../prompt-skill.mjs";
 
 export async function onRequestPost({ request, env }) {
   const apiKey = (env.GEMINI_API_KEY || "").trim();
@@ -65,14 +57,12 @@ export async function onRequestPost({ request, env }) {
   const fallbackModel = normalizeModel(env.GEMINI_MODEL_FALLBACK, "gemini-3.1-flash-lite");
   const modelsToTry = [...new Set([primaryModel, fallbackModel])];
 
-  const promptInstructions = `Optional task-type hint: ${type}. ${tone ? `Requested tone: ${tone}.` : ""} Treat these as hints only; follow the user's actual goal if it points elsewhere.
+  const requestContext = `Task-type hint (not a requirement): ${type}. ${tone ? `Requested tone: ${tone}.` : ""}
 
-USER'S ORIGINAL REQUEST:
+USER REQUEST:
 """
-${idea || "Use the attached media as reference and write a concise prompt that matches the user's likely intent."}
-"""
-
-Understand the intended result and do not merely reword the request: add one to three concrete, domain-relevant success details an experienced practitioner would include. Use sensible defaults for minor gaps, preserve the user's scope and constraints, and never invent personal facts or a larger project. Keep simple tasks focused and complex tasks actionable. Return only the copy-ready prompt.`;
+${idea || "Use the attached media as reference and create a prompt that reflects the user's likely intent."}
+"""`;
 
   const parts = [];
 
@@ -90,7 +80,7 @@ Understand the intended result and do not merely reword the request: add one to 
     }
   }
 
-  parts.push({ text: promptInstructions });
+  parts.push({ text: requestContext });
 
   let finalResult = null;
   let lastError = null;
@@ -106,7 +96,7 @@ Understand the intended result and do not merely reword the request: add one to 
           "x-goog-api-key": apiKey
         },
         body: JSON.stringify({
-          systemInstruction: { parts: [{ text: MASTER_SYSTEM_INSTRUCTIONS }] },
+          systemInstruction: { parts: [{ text: PROMPT_CRAFTING_SKILL }] },
           contents: [{ role: "user", parts }],
           generationConfig: {
             temperature: 0.45,
