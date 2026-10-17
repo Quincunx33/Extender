@@ -2,6 +2,9 @@ name = "meaw-genarator"
 compatibility_date = "2024-09-23"
 pages_build_output_dir = "dist"
 
+[build]
+command = "npm run build"
+
 [vars]
 GEMINI_MODEL_PRIMARY = "gemini-3.5-flash-lite"
 GEMINI_MODEL_FALLBACK = "gemini-3.1-flash-lite"
