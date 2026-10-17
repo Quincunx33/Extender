@@ -45,6 +45,7 @@ button {
 .page-shell {
   width: min(100% - 40px, 800px);
   margin: 0 auto;
+  padding-top: 24px;
   padding-bottom: 50px;
 }
 
@@ -1118,12 +1119,49 @@ footer {
   color: #a29b91;
   font-size: 10.5px;
   margin-top: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px 0;
 }
 
 .footer-brand {
   font-size: 18px;
   color: var(--ink);
   text-decoration: none;
+}
+
+.github-nav-btn {
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.repo-note-link {
+  color: var(--orange);
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.15s ease;
+}
+
+.repo-note-link:hover {
+  color: var(--orange-dark);
+  text-decoration: underline;
+}
+
+.footer-github-link {
+  color: #7b7468;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+
+.footer-github-link:hover {
+  color: var(--orange);
+  text-decoration: underline;
 }
 
 .text-button {
@@ -1421,3 +1459,55 @@ footer {
     justify-content: flex-end;
   }
 }
+
+@media (max-width: 480px) {
+  .page-shell {
+    width: min(100% - 16px, 100%);
+    padding-top: 12px;
+  }
+
+  .topbar {
+    height: 62px;
+    gap: 4px;
+  }
+
+  .brand-name {
+    font-size: 18px;
+    letter-spacing: -0.5px;
+  }
+
+  .brand-cat-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+  }
+
+  .top-actions {
+    gap: 5px;
+  }
+
+  .quiet-button {
+    padding: 0 8px;
+    font-size: 10px;
+    height: 30px;
+    gap: 4px;
+  }
+
+  .icon-button {
+    width: 30px;
+    height: 30px;
+  }
+
+  .icon-button svg {
+    width: 15px;
+  }
+
+  .intro {
+    padding: 20px 0 16px;
+  }
+
+  .cat-hero-svg {
+    width: 120px;
+  }
+}
+
